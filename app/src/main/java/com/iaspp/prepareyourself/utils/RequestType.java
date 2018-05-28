@@ -1,4 +1,4 @@
-package com.iaspp.prepareyourself;
+package com.iaspp.prepareyourself.utils;
 
 public enum RequestType {
     SEARCH_MOVIE("search/movie"),

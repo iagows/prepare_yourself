@@ -2,8 +2,10 @@ package com.iaspp.prepareyourself.model;
 
 import android.content.Context;
 
-import com.iaspp.prepareyourself.MovieRepository;
-import com.iaspp.prepareyourself.RequestType;
+import com.iaspp.prepareyourself.dto.AbstractResponseDTO;
+import com.iaspp.prepareyourself.interfaces.ICallback;
+import com.iaspp.prepareyourself.repository.MovieRepository;
+import com.iaspp.prepareyourself.utils.RequestType;
 
 import java.util.HashMap;
 
@@ -15,7 +17,7 @@ public class MovieController {
         this.repository = new MovieRepository(appContext);
     }
 
-    public void fetch(Context appContext) {
+    public void fetch(Context appContext)  {
         fetch(appContext, 1);
     }
 
@@ -23,7 +25,7 @@ public class MovieController {
         fetch(appContext, page, RequestType.UPCOMING);
     }
 
-    public void fetch(Context appContext, int page, RequestType type) {
+    public void fetch(Context appContext, int page, RequestType type)  {
         fetch(appContext, page, type, null);
     }
 

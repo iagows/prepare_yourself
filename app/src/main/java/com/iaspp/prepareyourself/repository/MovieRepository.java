@@ -1,4 +1,4 @@
-package com.iaspp.prepareyourself;
+package com.iaspp.prepareyourself.repository;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -12,53 +12,50 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.iaspp.prepareyourself.dto.MovieResultDTO;
-import com.iaspp.prepareyourself.dto.UpcomingMovieResponseDTO;
+import com.iaspp.prepareyourself.R;
+import com.iaspp.prepareyourself.dto.AbstractResponseDTO;
+import com.iaspp.prepareyourself.interfaces.ICallback;
+import com.iaspp.prepareyourself.utils.RequestType;
+import com.iaspp.prepareyourself.dto.ResponseMovieUpcomingDTO;
+import com.iaspp.prepareyourself.dto.ResponseSearchMovieDTO;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class MovieRepository {
 
-    private String url;
-    private String key;
     private Gson gson;
-    private RequestQueue requestQueue;
-
 
     public MovieRepository(Context appContext) {
-        this.url = appContext.getResources().getString(R.string.api_url);
-        this.key = appContext.getResources().getString(R.string.key);
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("YYYY-MM-dd");
         gson = gsonBuilder.create();
     }
 
-    public void fetchData(Context appContext, int page, RequestType type, HashMap<String, String> map) {
-        requestQueue = Volley.newRequestQueue(appContext);
-        String url = getUrl(appContext, page, type, map);
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, onSucessLoad, onFailLoad);
+    public void fetchData(Context appContext, final int page, final RequestType type, HashMap<String, String> map) {
+        final RequestQueue requestQueue = Volley.newRequestQueue(appContext);
+        String api_url = getUrl(appContext, page, type, map);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, api_url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                AbstractResponseDTO dto;
+                switch (type) {
+                    default:
+                    case UPCOMING:
+                        dto = gson.fromJson(response, ResponseMovieUpcomingDTO.class);
+                        break;
+                    case SEARCH_MOVIE:
+                        dto = gson.fromJson(response, ResponseSearchMovieDTO.class);
+                        break;
+                }
+                //Log.i("Size", dto.getResultList().size() + " movies loaded.");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        });
         requestQueue.add(stringRequest);
     }
-
-    private final Response.Listener<String> onSucessLoad = new Response.Listener<String>() {
-        @Override
-        public void onResponse(String response) {
-            List<UpcomingMovieResponseDTO> resp = Arrays.asList(gson.fromJson(response, UpcomingMovieResponseDTO[].class));
-            for (UpcomingMovieResponseDTO dto : resp) {
-                Log.i("Resp: ", "page: " + dto.getPage() + " " + dto.getTotalResults());
-            }
-        }
-    };
-
-    private final Response.ErrorListener onFailLoad = new Response.ErrorListener() {
-        @Override
-        public void onErrorResponse(VolleyError error) {
-            System.out.println("Error: " + error);
-            Log.e("PostActivity", error.toString());
-        }
-    };
 
     /**
      * @param appContext
@@ -69,7 +66,7 @@ public class MovieRepository {
      */
     @NonNull
     private String getUrl(Context appContext, int page, RequestType type, HashMap<String, String> map) {
-        final String url = appContext.getResources().getString(R.string.api_url);
+        final String api_url = appContext.getResources().getString(R.string.api_url);
         final String reqStr = type.toString();
         final String key = appContext.getResources().getString(R.string.key);
         if (map == null) {
@@ -79,7 +76,7 @@ public class MovieRepository {
         map.put("api_key", key);
         map.put("page", String.valueOf(page));
 
-        StringBuffer sb = new StringBuffer(url);
+        final StringBuffer sb = new StringBuffer(api_url);
         sb.append(reqStr);
         sb.append("?");
         sb.append(hashPairs(map));
@@ -93,7 +90,7 @@ public class MovieRepository {
      * @return
      */
     private String hashPairs(HashMap<String, String> map) {
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         for (String key : map.keySet()) {
             sb.append(key);
             sb.append("=");

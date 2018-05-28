@@ -2,7 +2,8 @@ package com.iaspp.prepareyourself.dto;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AbstractResponse {
+public abstract class AbstractResponseDTO {
+
     private int page;
     @SerializedName("total_pages")
     private int totalPages;
