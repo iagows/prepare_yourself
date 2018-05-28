@@ -21,6 +21,6 @@
 
 ## Libs:
 
-### Retrofit 2
+### gson
 
-HTTP lib. Used to download and parse JSON data.
+JSON parser.

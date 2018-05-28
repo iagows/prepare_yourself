@@ -2,5 +2,6 @@
 <resources>
     <string name="api_url">https://api.themoviedb.org/3/</string>
     <string name="key">1f54bd990f1cdfb230adb312546d765d</string>
+    <integer name="timeout">15</integer>
     <!-- String mystring = getResources().getString(R.string.mystring); -->
 </resources>
