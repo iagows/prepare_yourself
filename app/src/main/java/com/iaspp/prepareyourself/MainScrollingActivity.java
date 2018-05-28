@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.iaspp.prepareyourself.model.MovieController;
 
 public class MainScrollingActivity extends AppCompatActivity {
@@ -37,9 +36,8 @@ public class MainScrollingActivity extends AppCompatActivity {
     }
 
     private void init() {
-        this.movieController = new MovieController();
-
-        this.movieController.fetchMovies(getApplicationContext());
+        this.movieController = new MovieController(getApplicationContext());
+        this.movieController.fetch(getApplicationContext());
     }
 
     @Override
