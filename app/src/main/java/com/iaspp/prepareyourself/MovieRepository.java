@@ -10,19 +10,29 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.iaspp.prepareyourself.dto.MovieResultDTO;
+import com.iaspp.prepareyourself.dto.UpcomingMovieResponseDTO;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class MovieRepository {
 
     private String url;
     private String key;
+    private Gson gson;
     private RequestQueue requestQueue;
 
 
     public MovieRepository(Context appContext) {
         this.url = appContext.getResources().getString(R.string.api_url);
         this.key = appContext.getResources().getString(R.string.key);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setDateFormat("YYYY-MM-dd");
+        gson = gsonBuilder.create();
     }
 
     public void fetchData(Context appContext, int page, RequestType type, HashMap<String, String> map) {
@@ -35,8 +45,10 @@ public class MovieRepository {
     private final Response.Listener<String> onSucessLoad = new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
-            System.out.println("Response: " + response);
-            Log.i("PostActivity", response);
+            List<UpcomingMovieResponseDTO> resp = Arrays.asList(gson.fromJson(response, UpcomingMovieResponseDTO[].class));
+            for (UpcomingMovieResponseDTO dto : resp) {
+                Log.i("Resp: ", "page: " + dto.getPage() + " " + dto.getTotalResults());
+            }
         }
     };
 

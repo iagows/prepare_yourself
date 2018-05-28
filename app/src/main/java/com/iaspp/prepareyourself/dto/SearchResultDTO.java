@@ -1,7 +1,7 @@
 package com.iaspp.prepareyourself.dto;
 
 public class SearchResultDTO extends MovieResultDTO {
-    public String overview;
+    private String overview;
 
     public String getOverview() {
         return overview;
