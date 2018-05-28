@@ -19,7 +19,8 @@
 * * upcoming movies
 * * finder
 
-## Libs (not specified yet):
+## Libs:
 
-* Some JSON parser
-* Some image loader with delay
+### Retrofit 2
+
+HTTP lib. Used to download and parse JSON data.
