@@ -12,9 +12,6 @@ import com.iaspp.prepareyourself.R;
 import com.iaspp.prepareyourself.movie.MovieDTO;
 import com.squareup.picasso.Picasso;
 
-import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Text;
-
 public class ShowMovieInfo extends AppCompatActivity {
 
     @Override
@@ -23,7 +20,7 @@ public class ShowMovieInfo extends AppCompatActivity {
         setContentView(R.layout.activity_show_movie_info);
 
         Intent intent = getIntent();
-        MovieDTO dto = intent.getParcelableExtra(MainScrollingActivity.CHANGE_TO_MOVIE_INFO);
+        final MovieDTO dto = intent.getParcelableExtra(MainScrollingActivity.CHANGE_TO_MOVIE_INFO);
 
         final ImageView image;
         final TextView title;
@@ -46,10 +43,23 @@ public class ShowMovieInfo extends AppCompatActivity {
 
         Picasso.get().load(dto.getFullUrl()).into(image);
 
-
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickBt(dto);
+            }
+        });
     }
 
-    private void onShare(){
+    private void onClickBt(MovieDTO dto) {
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, dto.getOriginalTitle());
 
+        String sharedVia = getString(R.string.shared_via);
+        String appName = getString(R.string.app_name);
+
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, dto.getFullUrl() + "\n" + sharedVia + " \"" + appName + "\"\n" + dto.getOverview());
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_via)));
     }
 }
