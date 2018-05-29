@@ -2,14 +2,12 @@ package com.iaspp.prepareyourself.movie;
 
 import android.content.Context;
 import android.graphics.Point;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
 import com.iaspp.prepareyourself.config.TMDbConfig;
 import com.iaspp.prepareyourself.config.TMDbImagesConfig;
 import com.iaspp.prepareyourself.interfaces.ICallback;
-import com.iaspp.prepareyourself.movie.upcoming.ResultMovieUpcomingDTO;
 import com.iaspp.prepareyourself.utils.RequestType;
 
 import java.util.HashMap;
@@ -35,7 +33,7 @@ public class MovieController {
         this.width = size.x;
     }
 
-    public String getImageUrl(ResultMovieUpcomingDTO dto) {
+    public String getImageUrl(MovieDTO dto) {
         TMDbImagesConfig images = config.getImages();
         String max = "";
         String image = "";

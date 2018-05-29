@@ -1,10 +1,12 @@
-package com.iaspp.prepareyourself.movie.upcoming;
+package com.iaspp.prepareyourself.movie;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ResultMovieUpcomingDTO {
+public class MovieDTO {
+    @SerializedName("movie_id")
+    private int id;
     @SerializedName("poster_path")
     private String posterPath;
     @SerializedName("backdrop_path")
@@ -15,6 +17,7 @@ public class ResultMovieUpcomingDTO {
     private List<Integer> genreList;
     @SerializedName("release_date")
     private String releaseDate;
+    private String overview;
 
     public String getPosterPath() {
         return posterPath;
@@ -56,20 +59,22 @@ public class ResultMovieUpcomingDTO {
         this.releaseDate = releaseDate;
     }
 
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append(" Poster: ");
-        sb.append(posterPath);
-        sb.append(" Backdrop: ");
-        sb.append(backdropPath);
-        sb.append(" Title: ");
-        sb.append(originalTitle);
-        sb.append(" Release: ");
-        sb.append(releaseDate);
-        sb.append(" Genres: ");
-        sb.append(genreList);
+        String out = "ID: " + id + " poster: " + posterPath + " backdrop: " + backdropPath + " title " + originalTitle + " release: " + releaseDate + " genres: " + genreList;
 
-        return sb.toString();
+        if (overview != null && overview != "") {
+            out = out + " Overview: " + overview.substring(0, 80);
+        }
+
+        return out;
     }
 }

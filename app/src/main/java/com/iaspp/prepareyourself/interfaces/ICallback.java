@@ -1,7 +1,6 @@
 package com.iaspp.prepareyourself.interfaces;
 
 import com.iaspp.prepareyourself.config.TMDbConfig;
-import com.iaspp.prepareyourself.movie.AbstractResponseDTO;
 
 public interface ICallback {
     public interface OnConfigLoaded {

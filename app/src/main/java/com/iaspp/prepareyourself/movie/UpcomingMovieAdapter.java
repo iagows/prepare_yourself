@@ -1,8 +1,7 @@
-package com.iaspp.prepareyourself.movie.upcoming;
+package com.iaspp.prepareyourself.movie;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,16 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iaspp.prepareyourself.R;
-import com.iaspp.prepareyourself.movie.MovieController;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdapter.UpcomingHolder> {
-    private List<ResultMovieUpcomingDTO> list;
+    private List<MovieDTO> list;
     private MovieController controller;
 
-    public UpcomingMovieAdapter(List<ResultMovieUpcomingDTO> list, MovieController controller) {
+    public UpcomingMovieAdapter(List<MovieDTO> list, MovieController controller) {
         this.list = list;
         this.controller = controller;
     }
@@ -34,7 +32,7 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
 
     @Override
     public void onBindViewHolder(@NonNull UpcomingHolder holder, int position) {
-        ResultMovieUpcomingDTO dto = list.get(position);
+        MovieDTO dto = list.get(position);
 
         holder.title.setText(dto.getOriginalTitle());
         holder.release.setText(dto.getReleaseDate());

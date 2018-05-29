@@ -2,4 +2,7 @@
     <string name="app_name">Prepare Yourself</string>
     <string name="action_settings">Settings (later&#8230;)</string>
     <string name="stub">Stub text</string>
+    <string name="bt_link">Link</string>
+    <string name="bt_view">View</string>
+    <string name="bt_share">Share</string>
 </resources>

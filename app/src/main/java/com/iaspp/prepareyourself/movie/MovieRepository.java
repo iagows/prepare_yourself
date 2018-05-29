@@ -16,8 +16,6 @@ import com.iaspp.prepareyourself.config.TMDbConfig;
 import com.iaspp.prepareyourself.interfaces.ICallback;
 import com.iaspp.prepareyourself.interfaces.IDTO;
 import com.iaspp.prepareyourself.utils.RequestType;
-import com.iaspp.prepareyourself.movie.upcoming.ResponseMovieUpcomingDTO;
-import com.iaspp.prepareyourself.movie.search.ResponseSearchMovieDTO;
 
 import java.util.HashMap;
 
@@ -41,10 +39,8 @@ public class MovieRepository {
                 switch (type) {
                     default:
                     case UPCOMING:
-                        dto = gson.fromJson(response, ResponseMovieUpcomingDTO.class);
-                        break;
                     case SEARCH_MOVIE:
-                        dto = gson.fromJson(response, ResponseSearchMovieDTO.class);
+                        dto = gson.fromJson(response, MovieResponseDTO.class);
                         break;
                     case CONFIGURATION:
                         dto = gson.fromJson(response, TMDbConfig.class);

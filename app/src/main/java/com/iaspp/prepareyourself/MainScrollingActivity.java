@@ -11,17 +11,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
-import com.android.volley.RequestQueue;
 import com.iaspp.prepareyourself.config.TMDbConfig;
 import com.iaspp.prepareyourself.interfaces.ICallback;
 import com.iaspp.prepareyourself.interfaces.IDTO;
-import com.iaspp.prepareyourself.movie.AbstractResponseDTO;
+import com.iaspp.prepareyourself.movie.MovieResponseDTO;
 import com.iaspp.prepareyourself.movie.MovieController;
-import com.iaspp.prepareyourself.movie.upcoming.ResponseMovieUpcomingDTO;
-import com.iaspp.prepareyourself.movie.upcoming.UpcomingMovieAdapter;
-import com.iaspp.prepareyourself.utils.RequestType;
+import com.iaspp.prepareyourself.movie.UpcomingMovieAdapter;
 
 public class MainScrollingActivity extends AppCompatActivity implements ICallback.OnConfigLoaded {
 
@@ -81,7 +77,7 @@ private RecyclerView rv;
 
     private void onUpcoming(IDTO dto) {
         Log.i("UPCOMING", dto.toString());
-        UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(((ResponseMovieUpcomingDTO)dto).getResultList(), this.movieController);
+        UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(((MovieResponseDTO)dto).getResultList(), this.movieController);
         rv.setAdapter(adapter);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
