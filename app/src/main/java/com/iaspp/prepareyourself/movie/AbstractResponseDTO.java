@@ -44,7 +44,7 @@ public abstract class AbstractResponseDTO implements IDTO {
         sb.append(totalPages);
         sb.append(" ");
         sb.append(totalResults);
-        sb.append("movies");
+        sb.append(" movies");
 
         return sb.toString();
     }
