@@ -20,6 +20,7 @@ import com.iaspp.prepareyourself.movie.MovieController;
 import com.iaspp.prepareyourself.movie.MovieDTO;
 import com.iaspp.prepareyourself.movie.MovieResponseDTO;
 import com.iaspp.prepareyourself.movie.UpcomingMovieAdapter;
+import com.iaspp.prepareyourself.utils.RecyclerItemListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,19 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         rv.setLayoutManager(llm);
+
+        rv.addOnItemTouchListener(new RecyclerItemListener(getApplicationContext(), rv, new RecyclerItemListener.RecyclerTouchListener() {
+
+            @Override
+            public void onClickItem(View v, int position) {
+                Log.i("clique", "curto");
+            }
+
+            @Override
+            public void onLongClickItem(View v, int position) {
+                Log.i("clique", "longo");
+            }
+        }));
     }
 
     @Override
@@ -118,8 +132,8 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
 
     private void onUpcoming(IDTO dto) {
         Log.i("UPCOMING", dto.toString());
-        ((UpcomingMovieAdapter)rv.getAdapter()).addList(((MovieResponseDTO)dto).getResultList());
-rv.getAdapter().notifyDataSetChanged();
+        ((UpcomingMovieAdapter) rv.getAdapter()).addList(((MovieResponseDTO) dto).getResultList());
+        rv.getAdapter().notifyDataSetChanged();
 
         /*UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(((MovieResponseDTO) dto).getResultList(), this.movieController);
         rv.setAdapter(adapter);
