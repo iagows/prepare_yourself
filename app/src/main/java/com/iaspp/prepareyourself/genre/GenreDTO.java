@@ -3,14 +3,14 @@ package com.iaspp.prepareyourself.genre;
 import com.iaspp.prepareyourself.interfaces.IDTO;
 
 public class GenreDTO implements IDTO {
-    private int id;
+    private Integer id;
     private String name;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -20,5 +20,10 @@ public class GenreDTO implements IDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "id: " + id + " : " + name;
     }
 }

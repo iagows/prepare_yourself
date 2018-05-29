@@ -29,7 +29,6 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
     private MovieController movieController = null;
     private GenreController genreController;
     private RecyclerView rv;
-    private List<MovieDTO> moviesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +67,7 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
     }
 
     private void startRecyclerView() {
-        this.moviesList = new ArrayList<>();
-        UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(this.moviesList, this.movieController);
+        UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(new ArrayList<MovieDTO>(), this.movieController, this.genreController);
         rv.setAdapter(adapter);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);

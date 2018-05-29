@@ -9,23 +9,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iaspp.prepareyourself.R;
-import com.iaspp.prepareyourself.utils.AbstractController;
+import com.iaspp.prepareyourself.genre.GenreController;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdapter.UpcomingHolder> {
     private List<MovieDTO> list;
-    private MovieController abstractController;
+    private MovieController movieController;
+    private GenreController genreController;
 
-    public UpcomingMovieAdapter(List<MovieDTO> list, MovieController abstractController) {
+    public UpcomingMovieAdapter(List<MovieDTO> list, MovieController movieController, GenreController genreController) {
         this.list = list;
-        this.abstractController = abstractController;
+        this.movieController = movieController;
+        this.genreController = genreController;
     }
 
-    public void addList(List<MovieDTO> list){
+    public void addList(List<MovieDTO> list) {
         this.list.addAll(list);
-        this.notifyItemInserted(list.size()-1);
+        this.notifyItemInserted(list.size() - 1);
     }
 
     @NonNull
@@ -42,9 +44,18 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
 
         holder.title.setText(dto.getOriginalTitle());
         holder.release.setText(dto.getReleaseDate());
-        holder.genre.setText(dto.getGenreList().toString());
+        StringBuilder genres = new StringBuilder();
+        for (Integer id : dto.getGenreList()) {
+            String name = genreController.getGenre(id);
+            if (!name.equals("")) {
+                genres.append(genreController.getGenre(id) + ", ");
+            }
+        }
+        genres.setLength(genres.length() - 2);
 
-        String url = abstractController.getImageUrl(dto);
+        holder.genre.setText(genres.toString());
+
+        String url = movieController.getImageUrl(dto);
         Picasso.get().load(url).into(holder.image);
     }
 

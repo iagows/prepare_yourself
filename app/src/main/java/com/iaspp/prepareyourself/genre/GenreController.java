@@ -21,7 +21,7 @@ public class GenreController extends AbstractController {
         this.genres = ((GenreResponseDTO)dto).getGenres();
     }
 
-    public String getGenre(int id){
+    public String getGenre(Integer id){
         for(GenreDTO genre : this.genres){
             if(genre.getId() == id){
                 return genre.getName();
