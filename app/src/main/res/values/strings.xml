@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Prepare Yourself</string>
     <string name="action_settings">Settings (later&#8230;)</string>
+    <string name="stub">Stub text</string>
 </resources>

@@ -16,8 +16,8 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Title stub" />
+        android:text="@string/stub"
+        android:textAlignment="center" />
 
     <LinearLayout
 
@@ -30,13 +30,19 @@
             android:id="@+id/genres_upcoming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="genre stub" />
+            android:layout_weight="2"
+            android:padding="10dp"
+            android:text="@string/stub"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/release_upcoming"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2018 stub" />
+            android:layout_weight="2"
+            android:padding="10dp"
+            android:text="@string/stub"
+            android:textAlignment="center" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,19 +52,19 @@
         android:orientation="horizontal">
 
         <Button
-            style="@style/?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
 
         <Button
-            style="@style/?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
 
         <Button
-            style="@style/?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3" />
     </LinearLayout>
 
 </LinearLayout>
