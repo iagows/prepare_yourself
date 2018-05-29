@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.android.volley.RequestQueue;
 import com.iaspp.prepareyourself.config.TMDbConfig;
@@ -17,6 +19,8 @@ import com.iaspp.prepareyourself.interfaces.ICallback;
 import com.iaspp.prepareyourself.interfaces.IDTO;
 import com.iaspp.prepareyourself.movie.AbstractResponseDTO;
 import com.iaspp.prepareyourself.movie.MovieController;
+import com.iaspp.prepareyourself.movie.upcoming.ResponseMovieUpcomingDTO;
+import com.iaspp.prepareyourself.movie.upcoming.UpcomingMovieAdapter;
 import com.iaspp.prepareyourself.utils.RequestType;
 
 public class MainScrollingActivity extends AppCompatActivity implements ICallback.OnConfigLoaded {
@@ -77,6 +81,12 @@ private RecyclerView rv;
 
     private void onUpcoming(IDTO dto) {
         Log.i("UPCOMING", dto.toString());
+        UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(((ResponseMovieUpcomingDTO)dto).getResultList());
+        rv.setAdapter(adapter);
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rv.setLayoutManager(llm);
     }
 
 
