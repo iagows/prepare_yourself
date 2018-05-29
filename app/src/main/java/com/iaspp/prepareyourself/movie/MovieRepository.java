@@ -1,8 +1,7 @@
-package com.iaspp.prepareyourself.repository;
+package com.iaspp.prepareyourself.movie;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -13,11 +12,12 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.iaspp.prepareyourself.R;
-import com.iaspp.prepareyourself.dto.AbstractResponseDTO;
+import com.iaspp.prepareyourself.config.TMDbConfig;
 import com.iaspp.prepareyourself.interfaces.ICallback;
+import com.iaspp.prepareyourself.interfaces.IDTO;
 import com.iaspp.prepareyourself.utils.RequestType;
-import com.iaspp.prepareyourself.dto.ResponseMovieUpcomingDTO;
-import com.iaspp.prepareyourself.dto.ResponseSearchMovieDTO;
+import com.iaspp.prepareyourself.movie.upcoming.ResponseMovieUpcomingDTO;
+import com.iaspp.prepareyourself.movie.search.ResponseSearchMovieDTO;
 
 import java.util.HashMap;
 
@@ -31,13 +31,13 @@ public class MovieRepository {
         gson = gsonBuilder.create();
     }
 
-    public void fetchData(Context appContext, final int page, final RequestType type, HashMap<String, String> map) {
+    public void fetchData(Context appContext, final RequestType type, final ICallback.OnRequest callback, final int page, HashMap<String, String> map) {
         final RequestQueue requestQueue = Volley.newRequestQueue(appContext);
         String api_url = getUrl(appContext, page, type, map);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, api_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                AbstractResponseDTO dto;
+                IDTO dto;
                 switch (type) {
                     default:
                     case UPCOMING:
@@ -46,12 +46,16 @@ public class MovieRepository {
                     case SEARCH_MOVIE:
                         dto = gson.fromJson(response, ResponseSearchMovieDTO.class);
                         break;
+                    case CONFIGURATION:
+                        dto = gson.fromJson(response, TMDbConfig.class);
+                        break;
                 }
-                //Log.i("Size", dto.getResultList().size() + " movies loaded.");
+                callback.onSucess(dto);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                callback.onFail(error.getMessage());
             }
         });
         requestQueue.add(stringRequest);
@@ -74,7 +78,9 @@ public class MovieRepository {
         }
 
         map.put("api_key", key);
-        map.put("page", String.valueOf(page));
+        if (page > -1) {
+            map.put("page", String.valueOf(page));
+        }
 
         final StringBuffer sb = new StringBuffer(api_url);
         sb.append(reqStr);

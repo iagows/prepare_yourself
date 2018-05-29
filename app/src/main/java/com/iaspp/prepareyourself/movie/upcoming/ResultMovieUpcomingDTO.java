@@ -1,4 +1,4 @@
-package com.iaspp.prepareyourself.dto;
+package com.iaspp.prepareyourself.movie.upcoming;
 
 import com.google.gson.annotations.SerializedName;
 

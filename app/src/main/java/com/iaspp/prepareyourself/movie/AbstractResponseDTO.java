@@ -1,8 +1,9 @@
-package com.iaspp.prepareyourself.dto;
+package com.iaspp.prepareyourself.movie;
 
 import com.google.gson.annotations.SerializedName;
+import com.iaspp.prepareyourself.interfaces.IDTO;
 
-public abstract class AbstractResponseDTO {
+public abstract class AbstractResponseDTO implements IDTO{
 
     private int page;
     @SerializedName("total_pages")

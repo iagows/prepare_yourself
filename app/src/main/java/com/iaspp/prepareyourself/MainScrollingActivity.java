@@ -5,14 +5,19 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.android.volley.RequestQueue;
-import com.iaspp.prepareyourself.model.MovieController;
+import com.iaspp.prepareyourself.config.TMDbConfig;
+import com.iaspp.prepareyourself.interfaces.ICallback;
+import com.iaspp.prepareyourself.interfaces.IDTO;
+import com.iaspp.prepareyourself.movie.MovieController;
+import com.iaspp.prepareyourself.utils.RequestType;
 
-public class MainScrollingActivity extends AppCompatActivity {
+public class MainScrollingActivity extends AppCompatActivity implements ICallback.OnRequest, ICallback.OnConfigLoaded {
 
     private MovieController movieController = null;
     private RequestQueue requestQueue;
@@ -37,7 +42,34 @@ public class MainScrollingActivity extends AppCompatActivity {
 
     private void init() {
         this.movieController = new MovieController(getApplicationContext());
-        this.movieController.fetch(getApplicationContext());
+        this.movieController.fetch(getApplicationContext(), RequestType.CONFIGURATION, new ICallback.OnRequest() {
+            @Override
+            public void onSucess(IDTO dto) {
+                onConfig((TMDbConfig) dto);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                Log.e("Show error", "error");
+            }
+        });
+    }
+
+    @Override
+    public void onConfig(TMDbConfig t) {
+        movieController.setConfig(t);
+        Log.i("CONFIG:", t.toString());
+    }
+
+
+    @Override
+    public void onSucess(IDTO dto) {
+
+    }
+
+    @Override
+    public void onFail(String msg) {
+
     }
 
     @Override
@@ -60,7 +92,4 @@ public class MainScrollingActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-
 }

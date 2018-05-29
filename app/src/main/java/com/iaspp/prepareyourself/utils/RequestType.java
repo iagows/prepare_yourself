@@ -2,7 +2,8 @@ package com.iaspp.prepareyourself.utils;
 
 public enum RequestType {
     SEARCH_MOVIE("search/movie"),
-    UPCOMING("movie/upcoming");
+    UPCOMING("movie/upcoming"),
+    CONFIGURATION("configuration");
 
     private final String type;
 

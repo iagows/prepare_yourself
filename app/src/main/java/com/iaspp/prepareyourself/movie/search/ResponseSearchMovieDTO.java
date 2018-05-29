@@ -1,6 +1,7 @@
-package com.iaspp.prepareyourself.dto;
+package com.iaspp.prepareyourself.movie.search;
 
 import com.google.gson.annotations.SerializedName;
+import com.iaspp.prepareyourself.movie.AbstractResponseDTO;
 
 import java.util.List;
 
