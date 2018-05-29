@@ -1,105 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".views.ShowMovieInfo">
-
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".views.ShowMovieInfo">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="13dp">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/image_stub"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/stub"
-                android:padding="2dp" />
+                android:orientation="vertical"
+                android:padding="13dp">
 
-            <TextView
-                android:id="@+id/title_upcoming"
+                <ImageView
+                    android:id="@+id/image_stub"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/stub"
+                    android:padding="2dp" />
+
+                <TextView
+                    android:id="@+id/title_upcoming"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/stub"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/stub"
-                android:textAlignment="center" />
-        </LinearLayout>
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/genres_upcoming"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:padding="10dp"
+                    android:singleLine="false"
+                    android:text="@string/stub"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/release_upcoming"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:padding="10dp"
+                    android:text="@string/stub"
+                    android:textAlignment="center" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/genres_upcoming"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:padding="10dp"
-                android:singleLine="false"
-                android:text="@string/stub"
-                android:textAlignment="center" />
-
-            <TextView
-                android:id="@+id/release_upcoming"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:padding="10dp"
-                android:text="@string/stub"
-                android:textAlignment="center" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tf_overview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:padding="7dp"
-            android:textAlignment="textStart"
-            android:layout_gravity="start"
-            android:text="@string/stub"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:padding="2dp">
-
-            <Button
-                android:id="@+id/bt_link"
-                style="?attr/borderlessButtonStyle"
+                android:id="@+id/tf_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:text="@string/bt_link" />
+                android:layout_gravity="start"
+                android:padding="7dp"
+                android:text="@string/stub"
+                android:textAlignment="textStart" />
 
             <Button
                 android:id="@+id/bt_share"
                 style="?attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_weight="2"
                 android:scaleType="fitCenter"
                 android:text="@string/bt_share" />
-
-            <Button
-                android:id="@+id/bt_view"
-                style="?attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:scaleType="fitCenter"
-                android:text="@string/bt_view" />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

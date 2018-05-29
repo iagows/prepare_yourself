@@ -21,7 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.ShowMovieInfo"></activity>
+        <activity android:name=".views.ShowMovieInfo"
+            android:label="@string/movie_info_title"
+            android:parentActivityName=".views.MainScrollingActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.MainScrollingActivity"/>
+        </activity>
     </application>
 
 </manifest>
