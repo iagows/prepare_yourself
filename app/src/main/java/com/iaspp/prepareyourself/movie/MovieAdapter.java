@@ -12,6 +12,8 @@ import com.iaspp.prepareyourself.R;
 import com.iaspp.prepareyourself.genre.GenreController;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.UpcomingHolder> {
@@ -47,8 +49,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.UpcomingHold
         StringBuilder genres = new StringBuilder();
         for (Integer id : dto.getGenreList()) {
             String name = genreController.getGenre(id);
-            if (!name.equals("")) {
-                genres.append(genreController.getGenre(id) + ", ");
+            if (StringUtils.isNotBlank(name)) {
+                genres.append(genreController.getGenre(id));
+                genres.append(", ");
             }
         }
 
@@ -58,7 +61,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.UpcomingHold
         holder.genre.setText(genres.toString());
 
         String url = movieController.getImageUrl(dto);
-        Picasso.get().load(url).into(holder.image);
+        if (StringUtils.isNotBlank(url)) {
+            Picasso.get().load(url).into(holder.image);
+        }
     }
 
     @Override
@@ -66,13 +71,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.UpcomingHold
         return list.size();
     }
 
-    public class UpcomingHolder extends RecyclerView.ViewHolder {
+    class UpcomingHolder extends RecyclerView.ViewHolder {
         final ImageView image;
         final TextView title;
         final TextView genre;
         final TextView release;
 
-        public UpcomingHolder(View view) {
+        UpcomingHolder(View view) {
             super(view);
             image = view.findViewById(R.id.image_stub);
             title = view.findViewById(R.id.title_upcoming);

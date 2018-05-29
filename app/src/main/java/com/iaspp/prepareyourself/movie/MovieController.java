@@ -11,6 +11,8 @@ import com.iaspp.prepareyourself.interfaces.ICallback;
 import com.iaspp.prepareyourself.utils.AbstractController;
 import com.iaspp.prepareyourself.utils.RequestType;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 public class MovieController extends AbstractController {
@@ -23,22 +25,23 @@ public class MovieController extends AbstractController {
     }
 
     private void setWidth(WindowManager manager) {
-        Display display = manager.getDefaultDisplay();
-        Point size = new Point();
+        final Display display = manager.getDefaultDisplay();
+        final Point size = new Point();
         display.getSize(size);
         this.width = size.x;
     }
 
     public String getImageUrl(MovieDTO dto) {
-        TMDbImagesConfig images = config.getImages();
-        String max = "";
-        String image = "";
-        if (dto.getPosterPath() != null) {
+        final TMDbImagesConfig images = config.getImages();
+        String max, image;
+        if (StringUtils.isNotBlank(dto.getPosterPath())) {
             max = getMaxSize(images.getPosterSizes());
             image = dto.getPosterPath();
-        } else {
+        } else if (StringUtils.isNotBlank(dto.getBackdropPath())) {
             max = getMaxSize(images.getBackdropSizes());
             image = dto.getBackdropPath();
+        } else {
+            return "";
         }
 
         return images.getBase() + max + image;

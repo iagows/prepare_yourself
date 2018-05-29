@@ -2,6 +2,8 @@ package com.iaspp.prepareyourself.movie;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 public class MovieDTO {
@@ -71,7 +73,7 @@ public class MovieDTO {
     public String toString() {
         String out = "ID: " + id + " poster: " + posterPath + " backdrop: " + backdropPath + " title " + originalTitle + " release: " + releaseDate + " genres: " + genreList;
 
-        if (overview != null && !overview.equals("")) {
+        if (StringUtils.isNotBlank(overview)) {
             out = out + " Overview: " + overview.substring(0, overview.length() > 80 ? 80 : overview.length());
         }
 

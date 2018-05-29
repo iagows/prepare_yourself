@@ -38,3 +38,7 @@ Image loader.
 https://gist.github.com/nesquena/d09dc68ff07e845cc622
 
 Loads movies info dinamically.
+
+### Apache Commons Lang 3
+
+Improved String methods
