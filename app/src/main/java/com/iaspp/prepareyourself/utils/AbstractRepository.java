@@ -1,4 +1,4 @@
-package com.iaspp.prepareyourself.movie;
+package com.iaspp.prepareyourself.utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,17 +13,19 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.iaspp.prepareyourself.R;
 import com.iaspp.prepareyourself.config.TMDbConfig;
+import com.iaspp.prepareyourself.genre.GenreResponseDTO;
 import com.iaspp.prepareyourself.interfaces.ICallback;
 import com.iaspp.prepareyourself.interfaces.IDTO;
+import com.iaspp.prepareyourself.movie.MovieResponseDTO;
 import com.iaspp.prepareyourself.utils.RequestType;
 
 import java.util.HashMap;
 
-public class MovieRepository {
+public class AbstractRepository {
 
     private Gson gson;
 
-    public MovieRepository(Context appContext) {
+    public AbstractRepository(Context appContext) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("YYYY-MM-dd");
         gson = gsonBuilder.create();
@@ -44,6 +46,9 @@ public class MovieRepository {
                         break;
                     case CONFIGURATION:
                         dto = gson.fromJson(response, TMDbConfig.class);
+                        break;
+                    case GENRES:
+                        dto = gson.fromJson(response, GenreResponseDTO.class);
                         break;
                 }
                 callback.onSucess(dto);

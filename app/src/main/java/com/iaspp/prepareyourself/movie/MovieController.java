@@ -8,20 +8,18 @@ import android.view.WindowManager;
 import com.iaspp.prepareyourself.config.TMDbConfig;
 import com.iaspp.prepareyourself.config.TMDbImagesConfig;
 import com.iaspp.prepareyourself.interfaces.ICallback;
+import com.iaspp.prepareyourself.utils.AbstractController;
 import com.iaspp.prepareyourself.utils.RequestType;
 
-import java.util.HashMap;
 import java.util.List;
 
-public class MovieController {
-
-    private MovieRepository repository;
+public class MovieController extends AbstractController {
     private TMDbConfig config;
-    private int upComingPage;
+    private int currentPage;
     private int width;
 
     public MovieController(Context appContext, WindowManager windowManager) {
-        this.repository = new MovieRepository(appContext);
+        super(appContext, windowManager);
         setWidth(windowManager);
         this.resetUpcoming();
     }
@@ -69,29 +67,12 @@ public class MovieController {
         return this.width;
     }
 
-    public void initConfiguration(Context appContext, ICallback.OnRequest callback) {
-        fetch(appContext, RequestType.CONFIGURATION, callback);
-    }
-
     public void getUpcoming(Context appContent, ICallback.OnRequest callback) {
-        fetch(appContent, RequestType.UPCOMING, callback, this.upComingPage++);
+        fetch(appContent, RequestType.UPCOMING, callback, this.currentPage++);
     }
 
     public void resetUpcoming() {
-        this.upComingPage = 1;
-    }
-
-
-    public void fetch(Context appContext, RequestType type, ICallback.OnRequest callback) {
-        fetch(appContext, type, callback, -1);
-    }
-
-    public void fetch(Context appContext, RequestType type, ICallback.OnRequest callback, int page) {
-        fetch(appContext, type, callback, page, null);
-    }
-
-    public void fetch(Context appContext, RequestType type, ICallback.OnRequest callback, int page, HashMap<String, String> map) {
-        repository.fetchData(appContext, type, callback, page, map);
+        this.currentPage = 1;
     }
 
     public TMDbConfig getConfig() {

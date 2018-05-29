@@ -9,17 +9,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iaspp.prepareyourself.R;
+import com.iaspp.prepareyourself.utils.AbstractController;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdapter.UpcomingHolder> {
     private List<MovieDTO> list;
-    private MovieController controller;
+    private MovieController abstractController;
 
-    public UpcomingMovieAdapter(List<MovieDTO> list, MovieController controller) {
+    public UpcomingMovieAdapter(List<MovieDTO> list, MovieController abstractController) {
         this.list = list;
-        this.controller = controller;
+        this.abstractController = abstractController;
+    }
+
+    public void addList(List<MovieDTO> list){
+        this.list.addAll(list);
+        this.notifyItemInserted(list.size()-1);
     }
 
     @NonNull
@@ -38,7 +44,7 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
         holder.release.setText(dto.getReleaseDate());
         holder.genre.setText(dto.getGenreList().toString());
 
-        String url = controller.getImageUrl(dto);
+        String url = abstractController.getImageUrl(dto);
         Picasso.get().load(url).into(holder.image);
     }
 

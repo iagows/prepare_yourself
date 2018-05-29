@@ -13,16 +13,23 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.iaspp.prepareyourself.config.TMDbConfig;
+import com.iaspp.prepareyourself.genre.GenreController;
 import com.iaspp.prepareyourself.interfaces.ICallback;
 import com.iaspp.prepareyourself.interfaces.IDTO;
-import com.iaspp.prepareyourself.movie.MovieResponseDTO;
 import com.iaspp.prepareyourself.movie.MovieController;
+import com.iaspp.prepareyourself.movie.MovieDTO;
+import com.iaspp.prepareyourself.movie.MovieResponseDTO;
 import com.iaspp.prepareyourself.movie.UpcomingMovieAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainScrollingActivity extends AppCompatActivity implements ICallback.OnConfigLoaded {
 
     private MovieController movieController = null;
-private RecyclerView rv;
+    private GenreController genreController;
+    private RecyclerView rv;
+    private List<MovieDTO> moviesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +52,8 @@ private RecyclerView rv;
 
     private void init() {
         this.movieController = new MovieController(getApplicationContext(), getWindowManager());
+        this.genreController = new GenreController(getApplicationContext(), getWindowManager());
+        this.startRecyclerView();
         this.movieController.initConfiguration(getApplicationContext(), new ICallback.OnRequest() {
             @Override
             public void onSucess(IDTO dto) {
@@ -58,10 +67,44 @@ private RecyclerView rv;
         });
     }
 
+    private void startRecyclerView() {
+        this.moviesList = new ArrayList<>();
+        UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(this.moviesList, this.movieController);
+        rv.setAdapter(adapter);
+
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rv.setLayoutManager(llm);
+    }
+
     @Override
     public void onConfig(TMDbConfig t) {
         movieController.setConfig(t);
         Log.i("CONFIG:", t.toString());
+        getGenres();
+    }
+
+    private void getGenres() {
+        genreController.getGenres(getApplicationContext(), new ICallback.OnRequest() {
+            @Override
+            public void onSucess(IDTO dto) {
+                onGetGenres(dto);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                Log.e("Show error", "error" + msg);
+            }
+        });
+    }
+
+
+    private void onGetGenres(IDTO dto) {
+        genreController.saveGenres(dto);
+        getUpcoming();
+    }
+
+    private void getUpcoming() {
         movieController.getUpcoming(getApplicationContext(), new ICallback.OnRequest() {
             @Override
             public void onSucess(IDTO dto) {
@@ -77,12 +120,15 @@ private RecyclerView rv;
 
     private void onUpcoming(IDTO dto) {
         Log.i("UPCOMING", dto.toString());
-        UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(((MovieResponseDTO)dto).getResultList(), this.movieController);
+        ((UpcomingMovieAdapter)rv.getAdapter()).addList(((MovieResponseDTO)dto).getResultList());
+rv.getAdapter().notifyDataSetChanged();
+
+        /*UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(((MovieResponseDTO) dto).getResultList(), this.movieController);
         rv.setAdapter(adapter);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
-        rv.setLayoutManager(llm);
+        rv.setLayoutManager(llm);*/
     }
 
 
