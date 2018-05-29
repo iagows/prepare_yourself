@@ -48,4 +48,16 @@ public class TMDbImagesConfig {
     public void setPosterSizes(List<String> posterSizes) {
         this.posterSizes = posterSizes;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("BASE: ");
+        sb.append(base);
+        sb.append(" BACKDROP: ");
+        sb.append(backdropSizes);
+        sb.append(" POSTER: ");
+        sb.append(posterSizes);
+        return sb.toString();
+    }
 }

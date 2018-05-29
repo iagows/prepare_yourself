@@ -14,10 +14,11 @@ import com.android.volley.RequestQueue;
 import com.iaspp.prepareyourself.config.TMDbConfig;
 import com.iaspp.prepareyourself.interfaces.ICallback;
 import com.iaspp.prepareyourself.interfaces.IDTO;
+import com.iaspp.prepareyourself.movie.AbstractResponseDTO;
 import com.iaspp.prepareyourself.movie.MovieController;
 import com.iaspp.prepareyourself.utils.RequestType;
 
-public class MainScrollingActivity extends AppCompatActivity implements ICallback.OnRequest, ICallback.OnConfigLoaded {
+public class MainScrollingActivity extends AppCompatActivity implements ICallback.OnConfigLoaded {
 
     private MovieController movieController = null;
     private RequestQueue requestQueue;
@@ -42,7 +43,7 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
 
     private void init() {
         this.movieController = new MovieController(getApplicationContext());
-        this.movieController.fetch(getApplicationContext(), RequestType.CONFIGURATION, new ICallback.OnRequest() {
+        this.movieController.initConfiguration(getApplicationContext(), new ICallback.OnRequest() {
             @Override
             public void onSucess(IDTO dto) {
                 onConfig((TMDbConfig) dto);
@@ -50,7 +51,7 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
 
             @Override
             public void onFail(String msg) {
-                Log.e("Show error", "error");
+                Log.e("Show error", "error" + msg);
             }
         });
     }
@@ -59,18 +60,23 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
     public void onConfig(TMDbConfig t) {
         movieController.setConfig(t);
         Log.i("CONFIG:", t.toString());
+        movieController.getUpcoming(getApplicationContext(), new ICallback.OnRequest() {
+            @Override
+            public void onSucess(IDTO dto) {
+                onUpcoming(dto);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                Log.e("Show error", "error" + msg);
+            }
+        });
     }
 
-
-    @Override
-    public void onSucess(IDTO dto) {
-
+    private void onUpcoming(IDTO dto) {
+        Log.i("UPCOMING", dto.toString());
     }
 
-    @Override
-    public void onFail(String msg) {
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

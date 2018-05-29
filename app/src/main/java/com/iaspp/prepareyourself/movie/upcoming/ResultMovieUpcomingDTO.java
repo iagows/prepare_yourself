@@ -55,4 +55,21 @@ public class ResultMovieUpcomingDTO {
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(" Poster: ");
+        sb.append(posterPath);
+        sb.append(" Backdrop: ");
+        sb.append(backdropPath);
+        sb.append(" Title: ");
+        sb.append(originalTitle);
+        sb.append(" Release: ");
+        sb.append(releaseDate);
+        sb.append(" Genres: ");
+        sb.append(genreList);
+
+        return sb.toString();
+    }
 }

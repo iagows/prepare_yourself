@@ -14,6 +14,16 @@ public class ResponseSearchMovieDTO extends AbstractResponseDTO {
     }
 
     public void setResultList(List<ResultSearchMovieDTO> resultList) {
+        this.resultList = resultList;
+    }
 
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(super.toString());
+
+        sb.append(resultList);
+
+        return sb.toString();
     }
 }

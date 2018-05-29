@@ -12,4 +12,16 @@ public class ResultSearchMovieDTO extends ResultMovieUpcomingDTO {
     public void setOverview(String overview) {
         this.overview = overview;
     }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(super.toString());
+
+        sb.append(" Overview: ");
+        sb.append(overview.substring(0, 80));
+
+        return sb.toString();
+    }
 }

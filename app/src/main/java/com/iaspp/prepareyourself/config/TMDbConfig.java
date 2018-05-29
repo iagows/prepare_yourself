@@ -15,4 +15,9 @@ public class TMDbConfig implements IDTO{
     public void setImages(TMDbImagesConfig images) {
         this.images = images;
     }
+
+    @Override
+    public String toString(){
+        return "IMAGES: " + images.toString();
+    }
 }

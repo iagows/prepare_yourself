@@ -17,4 +17,14 @@ public class ResponseMovieUpcomingDTO extends AbstractResponseDTO {
         this.resultList = resultList;
     }
 
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(super.toString());
+
+        sb.append(resultList);
+
+        return sb.toString();
+    }
+
 }
