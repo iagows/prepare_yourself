@@ -1,5 +1,6 @@
-package com.iaspp.prepareyourself;
+package com.iaspp.prepareyourself.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.iaspp.prepareyourself.R;
 import com.iaspp.prepareyourself.config.TMDbConfig;
 import com.iaspp.prepareyourself.genre.GenreController;
 import com.iaspp.prepareyourself.interfaces.ICallback;
@@ -27,10 +29,11 @@ import java.util.ArrayList;
 
 public class MainScrollingActivity extends AppCompatActivity implements ICallback.OnConfigLoaded {
 
-    private MovieController movieController = null;
+    public static final String CHANGE_TO_MOVIE_INFO = "com.iaspp.prepareyourself.show_movie_info";
+    private MovieController movieController;
     private GenreController genreController;
     private RecyclerView rv;
-    private int totalMovies;
+    private EndlessRecyclerViewScrollListener endless;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +71,6 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
         });
     }
 
-    private EndlessRecyclerViewScrollListener endless;
-
     private void startRecyclerView() {
         MovieAdapter adapter = new MovieAdapter(new ArrayList<MovieDTO>(), this.movieController, this.genreController);
         rv.setAdapter(adapter);
@@ -81,7 +82,7 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
         rv.addOnItemTouchListener(new RecyclerItemListener(getApplicationContext(), rv, new RecyclerItemListener.RecyclerTouchListener() {
             @Override
             public void onClickItem(View v, int position) {
-                Log.i("clique", "curto");
+                gotoMovie(v, position);
             }
 
             @Override
@@ -93,13 +94,21 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
         endless = new EndlessRecyclerViewScrollListener(llm) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                if (totalItemsCount < totalMovies) {
+                if (totalItemsCount < movieController.getTotalMovies()) {
                     getUpcoming(page);
                 }
             }
         };
         rv.addOnScrollListener(endless);
     }
+
+    private void gotoMovie(View v, int position) {
+        Intent intent = new Intent(this, ShowMovieInfo.class);
+        MovieDTO dto = ((MovieAdapter) rv.getAdapter()).get(position);
+        intent.putExtra(CHANGE_TO_MOVIE_INFO, dto);
+        startActivity(intent);
+    }
+
 
     @Override
     public void onConfig(TMDbConfig t) {
@@ -144,10 +153,18 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
 
     private void onUpcoming(IDTO dto) {
         MovieResponseDTO response = (MovieResponseDTO) dto;
-        totalMovies = ((MovieResponseDTO) dto).getTotalResults();
-        Log.i("UPCOMING", response.toString());
-        ((MovieAdapter) rv.getAdapter()).addList(response.getResultList());
+
+        movieController.setTotalMovies(response.getTotalResults());
+        MovieAdapter adapter = (MovieAdapter)rv.getAdapter();
+        adapter.addList(response.getResultList());
+
         rv.getAdapter().notifyDataSetChanged();
+    }
+
+    private void resetCounter() {
+        ((MovieAdapter) rv.getAdapter()).clearList();
+        endless.resetState();
+        movieController.setTotalMovies(0);
     }
 
     @Override

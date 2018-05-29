@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import com.iaspp.prepareyourself.config.TMDbConfig;
 import com.iaspp.prepareyourself.config.TMDbImagesConfig;
 import com.iaspp.prepareyourself.interfaces.ICallback;
+import com.iaspp.prepareyourself.interfaces.IDTO;
 import com.iaspp.prepareyourself.utils.AbstractController;
 import com.iaspp.prepareyourself.utils.RequestType;
 
@@ -18,6 +19,7 @@ import java.util.List;
 public class MovieController extends AbstractController {
     private TMDbConfig config;
     private int width;
+    private int totalMovies;
 
     public MovieController(Context appContext, WindowManager windowManager) {
         super(appContext, windowManager);
@@ -31,7 +33,7 @@ public class MovieController extends AbstractController {
         this.width = size.x;
     }
 
-    public String getImageUrl(MovieDTO dto) {
+    public void setImageUrl(MovieDTO dto) {
         final TMDbImagesConfig images = config.getImages();
         String max, image;
         if (StringUtils.isNotBlank(dto.getPosterPath())) {
@@ -41,10 +43,9 @@ public class MovieController extends AbstractController {
             max = getMaxSize(images.getBackdropSizes());
             image = dto.getBackdropPath();
         } else {
-            return "";
+            max = image = "";
         }
-
-        return images.getBase() + max + image;
+        dto.setFullUrl(images.getBase() + max + image);
     }
 
     private String getMaxSize(List<String> list) {
@@ -64,7 +65,7 @@ public class MovieController extends AbstractController {
         return best;
     }
 
-    public int getWidth() {
+    private int getWidth() {
         return this.width;
     }
 
@@ -78,5 +79,13 @@ public class MovieController extends AbstractController {
 
     public void setConfig(TMDbConfig config) {
         this.config = config;
+    }
+
+    public void setTotalMovies(int totalMovies) {
+        this.totalMovies = totalMovies;
+    }
+
+    public int getTotalMovies() {
+        return totalMovies;
     }
 }

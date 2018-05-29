@@ -32,11 +32,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.UpcomingHold
         this.notifyItemInserted(list.size() - 1);
     }
 
+    public void clearList() {
+        this.list.clear();
+        this.notifyDataSetChanged();
+    }
+
+    public MovieDTO get(int value) {
+        return list.get(value);
+    }
+
     @NonNull
     @Override
     public UpcomingHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_upcoming, parent, false);
+                .inflate(R.layout.movie_card, parent, false);
         return new UpcomingHolder(v);
     }
 
@@ -46,7 +55,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.UpcomingHold
 
         holder.title.setText(dto.getOriginalTitle());
         holder.release.setText(dto.getReleaseDate());
+
+
         StringBuilder genres = new StringBuilder();
+
         for (Integer id : dto.getGenreList()) {
             String name = genreController.getGenre(id);
             if (StringUtils.isNotBlank(name)) {
@@ -57,13 +69,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.UpcomingHold
 
         int len = genres.length() - 2;
         genres.setLength(len < 0 ? 0 : len);
+        dto.setGenreWithComma(genres.toString());
 
-        holder.genre.setText(genres.toString());
+        holder.genre.setText(dto.getGenreWithComma());
 
-        String url = movieController.getImageUrl(dto);
-        if (StringUtils.isNotBlank(url)) {
-            Picasso.get().load(url).into(holder.image);
-        }
+        movieController.setImageUrl(dto);
+        Picasso.get().load(dto.getFullUrl()).into(holder.image);
     }
 
     @Override
