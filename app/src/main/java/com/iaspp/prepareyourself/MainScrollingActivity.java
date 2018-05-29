@@ -48,7 +48,7 @@ private RecyclerView rv;
     }
 
     private void init() {
-        this.movieController = new MovieController(getApplicationContext());
+        this.movieController = new MovieController(getApplicationContext(), getWindowManager());
         this.movieController.initConfiguration(getApplicationContext(), new ICallback.OnRequest() {
             @Override
             public void onSucess(IDTO dto) {
@@ -81,7 +81,7 @@ private RecyclerView rv;
 
     private void onUpcoming(IDTO dto) {
         Log.i("UPCOMING", dto.toString());
-        UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(((ResponseMovieUpcomingDTO)dto).getResultList());
+        UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(((ResponseMovieUpcomingDTO)dto).getResultList(), this.movieController);
         rv.setAdapter(adapter);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);

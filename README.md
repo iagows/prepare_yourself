@@ -28,3 +28,7 @@ JSON parser.
 ### Volley
 
 Simple HTTP requests.
+
+### Picasso
+
+Image loader.

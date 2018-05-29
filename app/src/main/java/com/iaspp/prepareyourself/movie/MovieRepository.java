@@ -82,11 +82,7 @@ public class MovieRepository {
             map.put("page", String.valueOf(page));
         }
 
-        final StringBuffer sb = new StringBuffer(api_url);
-        sb.append(reqStr);
-        sb.append("?");
-        sb.append(hashPairs(map));
-        return sb.toString();
+        return api_url + reqStr + "?" + hashPairs(map);
     }
 
     /**
@@ -96,7 +92,7 @@ public class MovieRepository {
      * @return
      */
     private String hashPairs(HashMap<String, String> map) {
-        final StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (String key : map.keySet()) {
             sb.append(key);
             sb.append("=");
