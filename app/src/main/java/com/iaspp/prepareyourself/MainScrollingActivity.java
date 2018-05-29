@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -21,16 +22,17 @@ import com.iaspp.prepareyourself.utils.RequestType;
 public class MainScrollingActivity extends AppCompatActivity implements ICallback.OnConfigLoaded {
 
     private MovieController movieController = null;
-    private RequestQueue requestQueue;
+private RecyclerView rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_scrolling);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        rv = findViewById(R.id.main_recycler_view);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
