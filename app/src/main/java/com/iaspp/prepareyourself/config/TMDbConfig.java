@@ -6,13 +6,13 @@ import com.iaspp.prepareyourself.interfaces.IDTO;
 import java.util.List;
 
 public class TMDbConfig implements IDTO{
-    private List<TMDbImagesConfig> images;
+    private TMDbImagesConfig images;
 
-    public List<TMDbImagesConfig> getImages() {
+    public TMDbImagesConfig getImages() {
         return images;
     }
 
-    public void setImages(List<TMDbImagesConfig> images) {
+    public void setImages(TMDbImagesConfig images) {
         this.images = images;
     }
 }
