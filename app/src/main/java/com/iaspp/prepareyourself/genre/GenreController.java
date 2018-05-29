@@ -18,19 +18,19 @@ public class GenreController extends AbstractController {
     }
 
     public void saveGenres(IDTO dto) {
-        this.genres = ((GenreResponseDTO)dto).getGenres();
+        this.genres = ((GenreResponseDTO) dto).getGenres();
     }
 
-    public String getGenre(Integer id){
-        for(GenreDTO genre : this.genres){
-            if(genre.getId() == id){
+    public String getGenre(Integer id) {
+        for (GenreDTO genre : this.genres) {
+            if (genre.getId() == id) {
                 return genre.getName();
             }
         }
         return "";
     }
 
-    public void getGenres(Context appContent, ICallback.OnRequest callback){
+    public void getGenres(Context appContent, ICallback.OnRequest callback) {
         fetch(appContent, RequestType.GENRES, callback);
     }
 }
