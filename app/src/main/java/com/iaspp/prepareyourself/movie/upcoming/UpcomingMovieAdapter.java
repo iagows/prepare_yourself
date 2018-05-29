@@ -38,7 +38,7 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
 
         holder.title.setText(dto.getOriginalTitle());
         holder.release.setText(dto.getReleaseDate());
-        holder.release.setText(dto.getGenreList().toString());
+        holder.genre.setText(dto.getGenreList().toString());
 
         String url = controller.getImageUrl(dto);
         Picasso.get().load(url).into(holder.image);
