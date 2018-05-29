@@ -15,13 +15,11 @@ import java.util.List;
 
 public class MovieController extends AbstractController {
     private TMDbConfig config;
-    private int currentPage;
     private int width;
 
     public MovieController(Context appContext, WindowManager windowManager) {
         super(appContext, windowManager);
         setWidth(windowManager);
-        this.resetUpcoming();
     }
 
     private void setWidth(WindowManager manager) {
@@ -67,12 +65,8 @@ public class MovieController extends AbstractController {
         return this.width;
     }
 
-    public void getUpcoming(Context appContent, ICallback.OnRequest callback) {
-        fetch(appContent, RequestType.UPCOMING, callback, this.currentPage++);
-    }
-
-    public void resetUpcoming() {
-        this.currentPage = 1;
+    public void getUpcoming(Context appContent, ICallback.OnRequest callback, int page) {
+        fetch(appContent, RequestType.UPCOMING, callback, page);
     }
 
     public TMDbConfig getConfig() {

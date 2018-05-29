@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Prepare-se</string>
+    <string name="action_settings">Configurações (em breve&#8230;)</string>
+    <string name="stub">Texto tapa-buraco</string>
+    <string name="bt_link">Link</string>
+    <string name="bt_view">Ver</string>
+    <string name="bt_share">Compartilhar</string>
+</resources>

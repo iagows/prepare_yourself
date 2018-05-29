@@ -14,12 +14,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdapter.UpcomingHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.UpcomingHolder> {
     private List<MovieDTO> list;
     private MovieController movieController;
     private GenreController genreController;
 
-    public UpcomingMovieAdapter(List<MovieDTO> list, MovieController movieController, GenreController genreController) {
+    public MovieAdapter(List<MovieDTO> list, MovieController movieController, GenreController genreController) {
         this.list = list;
         this.movieController = movieController;
         this.genreController = genreController;
@@ -51,7 +51,9 @@ public class UpcomingMovieAdapter extends RecyclerView.Adapter<UpcomingMovieAdap
                 genres.append(genreController.getGenre(id) + ", ");
             }
         }
-        genres.setLength(genres.length() - 2);
+
+        int len = genres.length() - 2;
+        genres.setLength(len < 0 ? 0 : len);
 
         holder.genre.setText(genres.toString());
 

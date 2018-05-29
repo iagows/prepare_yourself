@@ -71,8 +71,8 @@ public class MovieDTO {
     public String toString() {
         String out = "ID: " + id + " poster: " + posterPath + " backdrop: " + backdropPath + " title " + originalTitle + " release: " + releaseDate + " genres: " + genreList;
 
-        if (overview != null && overview != "") {
-            out = out + " Overview: " + overview.substring(0, 80);
+        if (overview != null && !overview.equals("")) {
+            out = out + " Overview: " + overview.substring(0, overview.length() > 80 ? 80 : overview.length());
         }
 
         return out;

@@ -19,17 +19,18 @@ import com.iaspp.prepareyourself.interfaces.IDTO;
 import com.iaspp.prepareyourself.movie.MovieController;
 import com.iaspp.prepareyourself.movie.MovieDTO;
 import com.iaspp.prepareyourself.movie.MovieResponseDTO;
-import com.iaspp.prepareyourself.movie.UpcomingMovieAdapter;
+import com.iaspp.prepareyourself.movie.MovieAdapter;
+import com.iaspp.prepareyourself.utils.EndlessRecyclerViewScrollListener;
 import com.iaspp.prepareyourself.utils.RecyclerItemListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainScrollingActivity extends AppCompatActivity implements ICallback.OnConfigLoaded {
 
     private MovieController movieController = null;
     private GenreController genreController;
     private RecyclerView rv;
+    private int totalMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,8 +68,10 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
         });
     }
 
+    private EndlessRecyclerViewScrollListener endless;
+
     private void startRecyclerView() {
-        UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(new ArrayList<MovieDTO>(), this.movieController, this.genreController);
+        MovieAdapter adapter = new MovieAdapter(new ArrayList<MovieDTO>(), this.movieController, this.genreController);
         rv.setAdapter(adapter);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -76,7 +79,6 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
         rv.setLayoutManager(llm);
 
         rv.addOnItemTouchListener(new RecyclerItemListener(getApplicationContext(), rv, new RecyclerItemListener.RecyclerTouchListener() {
-
             @Override
             public void onClickItem(View v, int position) {
                 Log.i("clique", "curto");
@@ -87,6 +89,16 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
                 Log.i("clique", "longo");
             }
         }));
+
+        endless = new EndlessRecyclerViewScrollListener(llm) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                if (totalItemsCount < totalMovies) {
+                    getUpcoming(page);
+                }
+            }
+        };
+        rv.addOnScrollListener(endless);
     }
 
     @Override
@@ -113,10 +125,10 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
 
     private void onGetGenres(IDTO dto) {
         genreController.saveGenres(dto);
-        getUpcoming();
+        getUpcoming(0);
     }
 
-    private void getUpcoming() {
+    private void getUpcoming(int page) {
         movieController.getUpcoming(getApplicationContext(), new ICallback.OnRequest() {
             @Override
             public void onSucess(IDTO dto) {
@@ -127,22 +139,16 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
             public void onFail(String msg) {
                 Log.e("Show error", "error" + msg);
             }
-        });
+        }, page + 1);
     }
 
     private void onUpcoming(IDTO dto) {
-        Log.i("UPCOMING", dto.toString());
-        ((UpcomingMovieAdapter) rv.getAdapter()).addList(((MovieResponseDTO) dto).getResultList());
+        MovieResponseDTO response = (MovieResponseDTO) dto;
+        totalMovies = ((MovieResponseDTO) dto).getTotalResults();
+        Log.i("UPCOMING", response.toString());
+        ((MovieAdapter) rv.getAdapter()).addList(response.getResultList());
         rv.getAdapter().notifyDataSetChanged();
-
-        /*UpcomingMovieAdapter adapter = new UpcomingMovieAdapter(((MovieResponseDTO) dto).getResultList(), this.movieController);
-        rv.setAdapter(adapter);
-
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        rv.setLayoutManager(llm);*/
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
