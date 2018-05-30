@@ -9,6 +9,13 @@
 * IDE: Android Studio 3.1.2
 * Used TMDb API key: ***********************
 
+## Instrucions
+
+* Use Android Studio 3.1.2
+* Download repository
+* Run it
+* Be happy!
+
 ## Functional Requirements:
 
 * Scroll through the list of upcoming movies – 20+ movies
