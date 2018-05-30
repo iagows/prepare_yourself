@@ -14,6 +14,7 @@ import com.iaspp.prepareyourself.utils.RequestType;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MovieController extends AbstractController {
@@ -71,6 +72,12 @@ public class MovieController extends AbstractController {
 
     public void getUpcoming(Context appContent, ICallback.OnRequest callback, int page) {
         fetch(appContent, RequestType.UPCOMING, callback, page);
+    }
+
+    public void getByName(Context appContext, ICallback.OnRequest callback, int page, String query){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("query", query);
+        fetch(appContext, RequestType.SEARCH_MOVIE, callback, page, map);
     }
 
     public TMDbConfig getConfig() {

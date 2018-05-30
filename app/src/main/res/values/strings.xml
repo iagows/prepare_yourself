@@ -7,4 +7,5 @@
     <string name="movie_info_title">Movie details</string>
     <string name="share_via">Share via&#8230;</string>
     <string name="shared_via">Shared via</string>
+    <string name="movie_name">Movie name</string>
 </resources>

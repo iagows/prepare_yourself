@@ -2,28 +2,30 @@ package com.iaspp.prepareyourself.views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.iaspp.prepareyourself.R;
 import com.iaspp.prepareyourself.config.TMDbConfig;
 import com.iaspp.prepareyourself.genre.GenreController;
 import com.iaspp.prepareyourself.interfaces.ICallback;
 import com.iaspp.prepareyourself.interfaces.IDTO;
+import com.iaspp.prepareyourself.movie.MovieAdapter;
 import com.iaspp.prepareyourself.movie.MovieController;
 import com.iaspp.prepareyourself.movie.MovieDTO;
 import com.iaspp.prepareyourself.movie.MovieResponseDTO;
-import com.iaspp.prepareyourself.movie.MovieAdapter;
 import com.iaspp.prepareyourself.utils.EndlessRecyclerViewScrollListener;
 import com.iaspp.prepareyourself.utils.RecyclerItemListener;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,7 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
     private GenreController genreController;
     private RecyclerView rv;
     private EndlessRecyclerViewScrollListener endless;
+    private SearchView et_find;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +45,8 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
         rv = findViewById(R.id.main_recycler_view);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         init();
     }
 
@@ -67,6 +63,36 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
             @Override
             public void onFail(String msg) {
                 Log.e("Show error", "error" + msg);
+            }
+        });
+
+        et_find = findViewById(R.id.et_find);
+
+        et_find.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                resetCounter();
+                if (StringUtils.isNotBlank(query)) {
+                    doSearch(query, 0);
+                } else {
+                    getUpcoming(0);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        ImageView searchCleanBt = et_find.findViewById(R.id.search_close_btn);
+        searchCleanBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetCounter();
+                et_find.setQuery("",true);
+                getUpcoming(0);
             }
         });
     }
@@ -95,7 +121,12 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 if (totalItemsCount < movieController.getTotalMovies()) {
-                    getUpcoming(page);
+                    String query = et_find.getQuery().toString();
+                    if (StringUtils.isNotBlank(query)) {
+                        doSearch(query, page);
+                    } else {
+                        getUpcoming(page);
+                    }
                 }
             }
         };
@@ -108,7 +139,6 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
         intent.putExtra(CHANGE_TO_MOVIE_INFO, dto);
         startActivity(intent);
     }
-
 
     @Override
     public void onConfig(TMDbConfig t) {
@@ -141,7 +171,7 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
         movieController.getUpcoming(getApplicationContext(), new ICallback.OnRequest() {
             @Override
             public void onSucess(IDTO dto) {
-                onUpcoming(dto);
+                onMovieDataReceived(dto);
             }
 
             @Override
@@ -151,11 +181,25 @@ public class MainScrollingActivity extends AppCompatActivity implements ICallbac
         }, page + 1);
     }
 
-    private void onUpcoming(IDTO dto) {
+    private void doSearch(String query, int page) {
+        movieController.getByName(getApplicationContext(), new ICallback.OnRequest() {
+            @Override
+            public void onSucess(IDTO dto) {
+                onMovieDataReceived(dto);
+            }
+
+            @Override
+            public void onFail(String msg) {
+                Log.e("Show error", "error" + msg);
+            }
+        }, page + 1, query);
+    }
+
+    private void onMovieDataReceived(IDTO dto) {
         MovieResponseDTO response = (MovieResponseDTO) dto;
 
         movieController.setTotalMovies(response.getTotalResults());
-        MovieAdapter adapter = (MovieAdapter)rv.getAdapter();
+        MovieAdapter adapter = (MovieAdapter) rv.getAdapter();
         adapter.addList(response.getResultList());
 
         rv.getAdapter().notifyDataSetChanged();

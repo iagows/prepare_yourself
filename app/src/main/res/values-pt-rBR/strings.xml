@@ -7,4 +7,5 @@
     <string name="movie_info_title">Detalhes do filme</string>
     <string name="share_via">Compartilhar&#8230;</string>
     <string name="shared_via">Enviado por</string>
+    <string name="movie_name">Nome do filme</string>
 </resources>
