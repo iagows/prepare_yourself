@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Prepare-se - TMDb</string>
+    <string name="action_settings">Configurações</string>
+    <string name="stub">Texto tapa-buraco</string>
+    <string name="bt_share">Compartilhar</string>
+    <string name="movie_info_title">Detalhes do filme</string>
+    <string name="share_via">Compartilhar&#8230;</string>
+    <string name="shared_via">Enviado por (TMDb):</string>
+    <string name="movie_name">Nome do filme</string>
+</resources>
