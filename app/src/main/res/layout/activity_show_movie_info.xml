@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,72 +13,66 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="13dp">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/image_stub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="13dp">
-
-                <ImageView
-                    android:id="@+id/image_stub"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/stub"
-                    android:padding="2dp" />
-
-                <TextView
-                    android:id="@+id/title_upcoming"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stub"
-                    android:textAlignment="center" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/genres_upcoming"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="10dp"
-                    android:singleLine="false"
-                    android:text="@string/stub"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/release_upcoming"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:padding="10dp"
-                    android:text="@string/stub"
-                    android:textAlignment="center" />
-            </LinearLayout>
+                android:contentDescription="@string/stub"
+                android:padding="2dp" />
 
             <TextView
-                android:id="@+id/tf_overview"
+                android:id="@+id/title_upcoming"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:padding="7dp"
                 android:text="@string/stub"
-                android:textAlignment="textStart" />
-
-            <Button
-                android:id="@+id/bt_share"
-                style="?attr/borderlessButtonStyle"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:scaleType="fitCenter"
-                android:text="@string/bt_share" />
+                android:textAlignment="center" />
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/genres_upcoming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10dp"
+                android:singleLine="false"
+                android:text="@string/stub"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/release_upcoming"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:padding="10dp"
+                android:text="@string/stub"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tf_overview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:padding="7dp"
+            android:text="@string/stub"
+            android:textAlignment="textStart" />
+
+        <Button
+            android:id="@+id/bt_share"
+            style="?attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:scaleType="fitCenter"
+            android:text="@string/bt_share" />
     </LinearLayout>
 </ScrollView>
